@@ -1,0 +1,38 @@
+Задание 2 - Environment Variables
+1. Загрузите образ node версии 15.14
+
+PS D:\NETO\Node-JS\009-docker> docker pull node:20.0.0  
+20.0.0: Pulling from library/node
+b3b8d2364ee3: Download complete
+9cdadd40055f: Download complete
+e847ad7c3ab9: Download complete
+fbebe301b1ba: Download complete
+b58a51cba8a5: Download complete
+918547b94326: Download complete
+5d79063a01c5: Download complete
+4eedd9c5abf7: Download complete
+Digest: sha256:942fa0013e9adfbde06ad07433bdb0a67cc2ac0d5a3db38f12a9c8f710b41f1c
+Status: Downloaded newer image for node:20.0.0
+docker.io/library/node:20.0.0
+
+2. Запустите контейнер node в интерактивном режиме подключения терминала, поименуйте его mynode, передайте две переменные среды NAME=<ваше имя> и SURNAME=<ваша фамилия>
+
+PS D:\NETO\Node-JS\009-docker>  docker run -it -e NAME=Evgeny -e SURNAME=Golovin node:20.0.0
+Welcome to Node.js v20.0.0.
+Type ".help" for more information.
+
+3. В интерактивной среде выполнения node выполните скрипт, который выведет на экран приветсвтие: Привет, <ваше имя> <ваша фамилия>!, эти данные должны быть получены из переменных среды
+
+> console.log(`Привет, ${process.env.NAME} ${process.env.SURNAME}!`)
+Привет, Evgeny Golovin!
+undefined
+
+4. Остановите контейнер
+
+PS D:\NETO\Node-JS\009-docker> docker stop 7a79472c94c5
+7a79472c94c5
+
+5. Удалите образ node версии 15.14
+
+PS D:\NETO\Node-JS\009-docker> docker rm 7a79472c94c5
+7a79472c94c5

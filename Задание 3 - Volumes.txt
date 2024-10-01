@@ -1,0 +1,58 @@
+Задание 3 - Volumes
+1. Загрузите образ node версии 15.14
+
+PS D:\NETO\Node-JS\009-docker> docker pull node:20.0.0
+20.0.0: Pulling from library/node
+Digest: sha256:942fa0013e9adfbde06ad07433bdb0a67cc2ac0d5a3db38f12a9c8f710b41f1c
+Status: Image is up to date for node:20.0.0
+docker.io/library/node:20.0.0
+
+2. Запустите контейнер с именем first_node из образа node версии 15.14 в фоновом режиме, подключив папку data из текущей директории в /var/first/data контейнера
+
+PS D:\NETO\Node-JS\009-docker> docker run --name first_node -it -v D:\NETO\Node-JS\009-docker\data\:/var/first/data -d node:20.0.0
+4876aa3fb1882b140d1b3de6d611f3c19930e5ba819c26a9df30e8d9f35660e9
+
+3. Запустите контейнер с именем second_node из образа node версии 15.14 в фоновом режиме, подключив папку data из текущей директории в /var/second/data контейнера
+
+PS D:\NETO\Node-JS\009-docker> docker run --name second_node -it -v D:\NETO\Node-JS\009-docker\data\:/var/second/data -d node:20.0.0
+c84799d9ac817ccf502c8c09ad2f4274bbff64d6742bf68f0fa1d6c558791cbc
+
+4. Подключитесь к контейнеру first_node с помощью exec и создайте текстовый файл любого содержания в /var/first/data
+
+PS D:\NETO\Node-JS\009-docker> docker exec -it first_node /bin/sh
+# cd /var/first/data
+# echo "Hello world" > data.txt
+# exit
+
+5. Добавьте еще один файл в папку data на хостовой машине
+
+PS D:\NETO\Node-JS\009-docker> docker exec -it first_node /bin/sh
+# cd /var/first/data
+# echo "Hello world again" > data2.txt
+# exit
+
+6. Подключитесь к контейнеру second_node с помощью exec и получите список файлов в директории /var/second/data, выведете на экран содержимое файлов
+
+PS D:\NETO\Node-JS\009-docker>  docker exec -it second_node /bin/sh
+# cd /var/second/data
+# ls
+data.txt  data2.txt
+# 
+
+7. Остановите оба контейнера
+
+PS D:\NETO\Node-JS\009-docker> docker stop first_node second_node
+first_node
+second_node
+
+8. Удалите оба контейнера
+
+PS D:\NETO\Node-JS\009-docker> docker rm first_node second_node
+first_node
+second_node
+
+9. Удалите образ node версии 15.14
+
+PS D:\NETO\Node-JS\009-docker> docker rmi node:20.0.0  
+Untagged: node:20.0.0
+Deleted: sha256:bf718fc580177cd927173c8617cf7f527a1b7f62c7de882ee17a42d065f4b70e

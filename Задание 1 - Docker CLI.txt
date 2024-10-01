@@ -1,0 +1,125 @@
+Задание 1 - Docker CLI
+1. Загрузите образ `busybox` последней версии:
+
+PS D:\NETO\Node-JS\009-docker> docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+2fce1e0cdfc5: Download complete
+Digest: sha256:c230832bd3b0be59a6c47ed64294f9ce71e91b327957920b6929a0caa8353140
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+
+2. Запустите новый контейнер busybox с командой ping сайта netology.ru, и количеством пингов 7, поименуйте контейнер pinger
+
+PS D:\NETO\Node-JS\009-docker> docker run --name pinger busybox ping -c 7 netology.ru
+PING netology.ru (188.114.98.233): 56 data bytes
+64 bytes from 188.114.98.233: seq=0 ttl=63 time=41.407 ms
+64 bytes from 188.114.98.233: seq=1 ttl=63 time=40.205 ms
+64 bytes from 188.114.98.233: seq=2 ttl=63 time=39.806 ms
+64 bytes from 188.114.98.233: seq=3 ttl=63 time=40.679 ms
+64 bytes from 188.114.98.233: seq=4 ttl=63 time=39.706 ms
+64 bytes from 188.114.98.233: seq=5 ttl=63 time=39.758 ms
+64 bytes from 188.114.98.233: seq=6 ttl=63 time=39.777 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 39.706/40.191/41.407 ms
+
+3. Выведите на список всех контейнеров - запущенных и остановленных
+
+PS D:\NETO\Node-JS\009-docker>  docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                     PORTS     NAMES
+b57458977764   busybox   "ping -c 7 netology.…"   2 minutes ago   Exited (0) 2 minutes ago             pinger
+
+4. Выведите на экран логи контейнера с именем pinger
+
+PS D:\NETO\Node-JS\009-docker>  docker logs pinger
+PING netology.ru (188.114.98.233): 56 data bytes
+64 bytes from 188.114.98.233: seq=0 ttl=63 time=41.407 ms
+64 bytes from 188.114.98.233: seq=1 ttl=63 time=40.205 ms
+64 bytes from 188.114.98.233: seq=2 ttl=63 time=39.806 ms
+64 bytes from 188.114.98.233: seq=3 ttl=63 time=40.679 ms
+64 bytes from 188.114.98.233: seq=4 ttl=63 time=39.706 ms
+64 bytes from 188.114.98.233: seq=5 ttl=63 time=39.758 ms
+64 bytes from 188.114.98.233: seq=6 ttl=63 time=39.777 ms
+
+
+
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 39.706/40.191/41.407 ms
+
+5. Запустите второй раз контейнера с именем pinger
+
+PS D:\NETO\Node-JS\009-docker>  docker start pinger
+pinger
+
+6. Выведите на список всех контейнеров - запущенных и остановленных
+
+PS D:\NETO\Node-JS\009-docker> docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                      PORTS     NAMES
+b57458977764   busybox   "ping -c 7 netology.…"   3 minutes ago   Exited (0) 14 seconds ago             pinger
+
+7. Выведите на экран логи контейнера с именем pinger
+
+PS D:\NETO\Node-JS\009-docker>  docker logs pinger
+PING netology.ru (188.114.98.233): 56 data bytes
+64 bytes from 188.114.98.233: seq=0 ttl=63 time=41.407 ms
+64 bytes from 188.114.98.233: seq=1 ttl=63 time=40.205 ms
+64 bytes from 188.114.98.233: seq=2 ttl=63 time=39.806 ms
+64 bytes from 188.114.98.233: seq=3 ttl=63 time=40.679 ms
+64 bytes from 188.114.98.233: seq=4 ttl=63 time=39.706 ms
+64 bytes from 188.114.98.233: seq=5 ttl=63 time=39.758 ms
+64 bytes from 188.114.98.233: seq=6 ttl=63 time=39.777 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 39.706/40.191/41.407 ms
+PING netology.ru (188.114.98.233): 56 data bytes
+64 bytes from 188.114.98.233: seq=0 ttl=63 time=39.516 ms
+64 bytes from 188.114.98.233: seq=1 ttl=63 time=40.307 ms
+64 bytes from 188.114.98.233: seq=2 ttl=63 time=40.236 ms
+64 bytes from 188.114.98.233: seq=3 ttl=63 time=40.399 ms
+64 bytes from 188.114.98.233: seq=4 ttl=63 time=39.331 ms
+64 bytes from 188.114.98.233: seq=5 ttl=63 time=40.511 ms
+64 bytes from 188.114.98.233: seq=6 ttl=63 time=39.520 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 39.331/39.974/40.511 ms
+
+8. Определите по логам общее количество запусков команды ping и какое общее количество отправленых запросов
+
+PS D:\NETO\Node-JS\009-docker>  docker logs -t pinger | sls  'netology.ru ping statistics'    
+
+2024-10-01T18:09:06.561468242Z --- netology.ru ping statistics ---
+2024-10-01T18:12:37.747834166Z --- netology.ru ping statistics ---
+
+PS D:\NETO\Node-JS\009-docker>  docker logs -t pinger | sls  'seq'  
+
+2024-10-01T18:09:00.561887975Z 64 bytes from 188.114.98.233: seq=0 ttl=63 time=41.407 ms
+2024-10-01T18:09:01.561021369Z 64 bytes from 188.114.98.233: seq=1 ttl=63 time=40.205 ms
+2024-10-01T18:09:02.560917441Z 64 bytes from 188.114.98.233: seq=2 ttl=63 time=39.806 ms
+2024-10-01T18:09:03.561702748Z 64 bytes from 188.114.98.233: seq=3 ttl=63 time=40.679 ms
+2024-10-01T18:09:04.561198773Z 64 bytes from 188.114.98.233: seq=4 ttl=63 time=39.706 ms
+2024-10-01T18:09:05.561357779Z 64 bytes from 188.114.98.233: seq=5 ttl=63 time=39.758 ms
+2024-10-01T18:09:06.561441513Z 64 bytes from 188.114.98.233: seq=6 ttl=63 time=39.777 ms
+2024-10-01T18:12:31.747881100Z 64 bytes from 188.114.98.233: seq=0 ttl=63 time=39.516 ms
+2024-10-01T18:12:32.748902936Z 64 bytes from 188.114.98.233: seq=1 ttl=63 time=40.307 ms
+2024-10-01T18:12:33.748996522Z 64 bytes from 188.114.98.233: seq=2 ttl=63 time=40.236 ms
+2024-10-01T18:12:34.749256749Z 64 bytes from 188.114.98.233: seq=3 ttl=63 time=40.399 ms
+2024-10-01T18:12:35.748330909Z 64 bytes from 188.114.98.233: seq=4 ttl=63 time=39.331 ms
+2024-10-01T18:12:36.749911814Z 64 bytes from 188.114.98.233: seq=5 ttl=63 time=40.511 ms
+2024-10-01T18:12:37.747809657Z 64 bytes from 188.114.98.233: seq=6 ttl=63 time=39.520 ms
+
+9. Удалите контейнер с именем pinger
+
+PS D:\NETO\Node-JS\009-docker> docker rm pinger
+pinger
+
+10. Удалите образ busybox
+
+PS D:\NETO\Node-JS\009-docker>  docker rmi busybox
+Untagged: busybox:latest
+Deleted: sha256:c230832bd3b0be59a6c47ed64294f9ce71e91b327957920b6929a0caa8353140
